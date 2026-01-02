@@ -168,3 +168,5 @@ data/*
 .data/*
 !.data/.gitkeep
 !data/.gitkeep
+!.data/mosquitto/.gitkeep
+!data/mosquitto/.gitkeep
