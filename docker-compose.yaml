@@ -1,10 +1,10 @@
 services:
-  json-server:
+  api-server:
     image: clue/json-server:latest
     ports:
       - "3000:80"
     volumes:
-      - ./config/mock/db.json:/data/db.json
+      - ./.data/mock/api/db.json:/data/db.json
     restart: unless-stopped
 
   mosquitto:
@@ -12,7 +12,30 @@ services:
     ports:
       - "1883:1883"
     volumes:
-      - ./.data/mosquitto/config:/mosquitto/config
+      - ./.data/config/mosquitto:/mosquitto/config
       - ./.data/mosquitto/data:/mosquitto/data
       - ./.data/mosquitto/log:/mosquitto/log
     restart: unless-stopped
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_DB_PASSWORD}
+    volumes:
+      - ./.data/mssql:/var/opt/mssql
+      - ./.data/mock/mssql/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./.data/mock/mssql/import-data.sql:/docker-entrypoint-initdb.d/import-data.sql
+      - ./.data/mock/mssql/entrypoint.sh:/docker-entrypoint-initdb.d/entrypoint.sh
+      - ./.data/mock/data:/data/csv
+    command: /bin/bash /docker-entrypoint-initdb.d/entrypoint.sh
+    restart: unless-stopped
+
+  aicraft-beat:
+    image: ghcr.io/reddy-s/aicraft-beat:v0.0.3
+    environment:
+     - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
+    volumes:
+     - ./.data/beat:/app/data
