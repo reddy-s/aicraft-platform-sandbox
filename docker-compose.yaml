@@ -39,3 +39,8 @@ services:
      - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
     volumes:
      - ./.data/beat:/app/data
+    restart: unless-stopped
+  
+  aicraft-event-processor:
+    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.1
+    restart: unless-stopped
