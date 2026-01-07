@@ -44,3 +44,15 @@ services:
   aicraft-event-processor:
     image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.1
     restart: unless-stopped
+
+  postgres:
+    image: postgres:18.1-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=aicraftbatch
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql
+    restart: unless-stopped
