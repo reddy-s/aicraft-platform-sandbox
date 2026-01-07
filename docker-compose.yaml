@@ -33,18 +33,6 @@ services:
     command: /bin/bash /docker-entrypoint-initdb.d/entrypoint.sh
     restart: unless-stopped
 
-  aicraft-beat:
-    image: ghcr.io/reddy-s/aicraft-beat:v0.0.3
-    environment:
-     - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
-    volumes:
-     - ./.data/beat:/app/data
-    restart: unless-stopped
-  
-  aicraft-event-processor:
-    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.1
-    restart: unless-stopped
-
   postgres:
     image: postgres:18.1-alpine
     ports:
@@ -55,4 +43,16 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./.data/postgres:/var/lib/postgresql
+    restart: unless-stopped
+
+  aicraft-beat:
+    image: ghcr.io/reddy-s/aicraft-beat:v0.0.3
+    environment:
+     - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
+    volumes:
+     - ./.data/beat:/app/data
+    restart: unless-stopped
+  
+  aicraft-event-processor:
+    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.1
     restart: unless-stopped
