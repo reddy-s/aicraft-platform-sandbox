@@ -52,7 +52,22 @@ services:
     volumes:
      - ./.data/beat:/app/data
     restart: unless-stopped
+    depends_on:
+      - mssql
+      - mosquitto
+      - api-server
   
   aicraft-event-processor:
-    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.1
+    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.2
     restart: unless-stopped
+    depends_on:
+      - mosquitto
+
+  aicraft-store-drainer:
+    image: ghcr.io/reddy-s/aicraft-store-drainer:v0.0.3
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - mosquitto
