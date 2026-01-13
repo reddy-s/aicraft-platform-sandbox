@@ -1,6 +1,7 @@
 services:
   api-server:
     image: clue/json-server:latest
+    container_name: api-server
     ports:
       - "3000:80"
     volumes:
@@ -9,6 +10,7 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:2.0.22
+    container_name: mosquitto
     ports:
       - "1883:1883"
     volumes:
@@ -19,6 +21,7 @@ services:
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
     ports:
       - "1433:1433"
     environment:
@@ -35,6 +38,7 @@ services:
 
   postgres:
     image: postgres:18.1-alpine
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
@@ -47,6 +51,7 @@ services:
 
   aicraft-beat:
     image: ghcr.io/reddy-s/aicraft-beat:v0.0.3
+    container_name: beat
     environment:
      - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
     volumes:
@@ -59,12 +64,14 @@ services:
   
   aicraft-event-processor:
     image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.2
+    container_name: event-processor
     restart: unless-stopped
     depends_on:
       - mosquitto
 
   aicraft-store-drainer:
     image: ghcr.io/reddy-s/aicraft-store-drainer:v0.0.3
+    container_name: store-drainer
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     restart: unless-stopped

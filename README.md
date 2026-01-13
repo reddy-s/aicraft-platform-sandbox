@@ -73,7 +73,11 @@ POSTGRES_PASSWORD=YourPostgresPassword123!
 
 3. **Start all services:**
    ```bash
-   docker-compose up -d
+   docker-compose up -d mosquitto mssql api-server postgres && \
+   sleep 15 && \
+   docker-compose up -d aicraft-event-processor aicraft-store-drainer && \
+   sleep 15 && \
+   docker-compose up -d aicraft-beat
    ```
 
 4. **Check service status:**
