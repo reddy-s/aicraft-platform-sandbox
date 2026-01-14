@@ -63,14 +63,14 @@ services:
       - api-server
   
   aicraft-event-processor:
-    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.2
+    image: ghcr.io/reddy-s/aicraft-event-processor:v0.0.3
     container_name: event-processor
     restart: unless-stopped
     depends_on:
       - mosquitto
 
   aicraft-store-drainer:
-    image: ghcr.io/reddy-s/aicraft-store-drainer:v0.0.3
+    image: ghcr.io/reddy-s/aicraft-store-drainer:v0.0.4
     container_name: store-drainer
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
