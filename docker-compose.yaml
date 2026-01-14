@@ -50,7 +50,7 @@ services:
     restart: unless-stopped
 
   aicraft-beat:
-    image: ghcr.io/reddy-s/aicraft-beat:v0.0.3
+    image: ghcr.io/reddy-s/aicraft-beat:v0.0.4
     container_name: beat
     environment:
      - MSSQL_DB_PASSWORD=${MSSQL_DB_PASSWORD}
