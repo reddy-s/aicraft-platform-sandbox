@@ -49,6 +49,15 @@ services:
       - ./.data/postgres:/var/lib/postgresql
     restart: unless-stopped
 
+  typesense:
+    image: typesense/typesense:29.0
+    restart: on-failure
+    ports:
+      - "8108:8108"
+    volumes:
+      - ./.data/typesense-data:/data
+    command: '--data-dir /data --api-key=local-dev'
+
   aicraft-beat:
     image: ghcr.io/reddy-s/aicraft-beat:v0.0.5
     container_name: beat
